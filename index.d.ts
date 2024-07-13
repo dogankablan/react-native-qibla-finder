@@ -25,7 +25,7 @@ export interface QiblaFinderProps {
 }
 
 export interface QiblaFinderRef {
-  reinitCompass: () => void;
+  resetCompass: () => void;
 }
 
 declare module 'react-native-qible-finder' {

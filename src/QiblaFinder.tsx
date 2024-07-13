@@ -50,19 +50,19 @@ const QiblaFinder = forwardRef<QiblaFinderRef, QiblaFinderProps>(
 
     // Using custom hook to get Qibla direction and compass functionalities
     const {
-      qiblaCoordinate,
-      compassDirection,
-      compassDegree,
-      compassRotate,
-      kabaRotate,
-      error,
+      qiblaCoords,
+      direction,
+      degree,
+      rotateCompass,
+      rotateKaba,
+      errorMsg,
       isLoading,
       isAligned,
-      reinitCompass
+      resetCompass
     } = useQiblaFinder();
 
-    // Exposing reinitCompass method to parent component via ref
-    useImperativeHandle(ref, () => ({ reinitCompass }), [reinitCompass]);
+    // Exposing resetCompass method to parent component via ref
+    useImperativeHandle(ref, () => ({ resetCompass }), [resetCompass]);
 
     //#endregion
 
@@ -87,14 +87,14 @@ const QiblaFinder = forwardRef<QiblaFinderRef, QiblaFinderProps>(
               style={[styles.qiblaDirectionImage, qiblaDirectionImageStyle]}
             />
             <Text style={[styles.directionText, qiblaDirectionTextStyle]}>
-              {qiblaCoordinate.toFixed(0)}°
+              {qiblaCoords.toFixed(0)}°
             </Text>
           </View>
         ) : null,
       [
         showQiblaDirection,
         qiblaDirectionTextStyle,
-        qiblaCoordinate,
+        qiblaCoords,
         qiblaDirectionImage,
         qiblaDirectionImageStyle,
         qiblaDirectionStyle
@@ -107,17 +107,17 @@ const QiblaFinder = forwardRef<QiblaFinderRef, QiblaFinderProps>(
         showCompassDirection ? (
           <View style={[styles.direction, compassDirectionStyle]}>
             <Text style={[styles.directionText, compassDirectionTextStyle]}>
-              {compassDirection}
+              {direction}
             </Text>
             <Text style={[styles.directionText, compassDirectionTextStyle]}>
-              {compassDegree}°
+              {degree}°
             </Text>
           </View>
         ) : null,
       [
         showCompassDirection,
-        compassDirection,
-        compassDegree,
+        direction,
+        degree,
         compassDirectionTextStyle,
         compassDirectionStyle
       ]
@@ -132,10 +132,10 @@ const QiblaFinder = forwardRef<QiblaFinderRef, QiblaFinderProps>(
             style={[
               styles.compassImage,
               compassImageStyle,
-              rotateStyle(compassRotate)
+              rotateStyle(rotateCompass)
             ]}
           />
-          <View style={[styles.kabaa, kaabaStyle, rotateStyle(kabaRotate)]}>
+          <View style={[styles.kabaa, kaabaStyle, rotateStyle(rotateKaba)]}>
             <Image source={kaabaImage} style={styles.kabaaImage} />
           </View>
         </View>
@@ -143,8 +143,8 @@ const QiblaFinder = forwardRef<QiblaFinderRef, QiblaFinderProps>(
       [
         compassImage,
         kaabaImage,
-        compassRotate,
-        kabaRotate,
+        rotateCompass,
+        rotateKaba,
         compassStyle,
         compassImageStyle,
         kaabaStyle
@@ -157,10 +157,10 @@ const QiblaFinder = forwardRef<QiblaFinderRef, QiblaFinderProps>(
 
     // Effect to handle errors
     useEffect(() => {
-      if (error && onError) {
-        onError(error);
+      if (errorMsg && onError) {
+        onError(errorMsg);
       }
-    }, [error, onError]);
+    }, [errorMsg, onError]);
 
     // Effect to handle vibration when aligned
     useEffect(() => {

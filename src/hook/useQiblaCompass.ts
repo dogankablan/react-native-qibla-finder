@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
 import * as Location from 'expo-location';
 import { Magnetometer } from 'expo-sensors';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 // Directions are defined for compass point simplification.
 const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
@@ -76,20 +76,20 @@ const calculateQibla = (latitude: number, longitude: number) => {
 
 // Interface definition for Qibla Compass reference.
 export interface QiblaFinderRef {
-  reinitCompass: () => void;
+  resetCompass: () => void;
 }
 
 // Interface definition for Qibla Compass reference.
 export interface QiblaFinderProps {
-  qiblaCoordinate: number;
-  compassDirection: string;
-  compassDegree: number;
-  compassRotate: number;
-  kabaRotate: number;
-  error: string | null;
+  qiblaCoords: number;
+  direction: string;
+  degree: number;
+  rotateCompass: number;
+  rotateKaba: number;
+  errorMsg: string | null;
   isLoading: boolean;
   isAligned: boolean;
-  reinitCompass: () => void;
+  resetCompass: () => void;
 }
 
 // Custom hook to handle Qibla direction and compass functionalities.
@@ -97,7 +97,7 @@ export const useQiblaFinder = (): QiblaFinderProps => {
   const [subscription, setSubscription] = useState<any>(null);
   const [magnetometer, setMagnetometer] = useState<number>(0);
   const [qiblaCoordinateState, setQiblaCoordinateState] = useState<number>(0);
-  const [error, setError] = useState<string | null>(null);
+  const [errorMsg, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isAligned, setIsAligned] = useState(false);
 
@@ -105,7 +105,7 @@ export const useQiblaFinder = (): QiblaFinderProps => {
   const subscribe = useCallback(() => {
     Magnetometer.setUpdateInterval(20);
     setSubscription(
-      Magnetometer.addListener(data => {
+      Magnetometer.addListener((data) => {
         setMagnetometer(calculateAngle(data));
       })
     );
@@ -131,7 +131,7 @@ export const useQiblaFinder = (): QiblaFinderProps => {
       }
 
       const location = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Balanced,
+        accuracy: Location.Accuracy.Balanced
       });
 
       const qiblaValue = calculateQibla(
@@ -161,32 +161,29 @@ export const useQiblaFinder = (): QiblaFinderProps => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initCompass]);
 
-  const compassDegree = useMemo(
-    () => calculateDegree(magnetometer),
-    [magnetometer]
-  );
+  const degree = useMemo(() => calculateDegree(magnetometer), [magnetometer]);
 
   useEffect(() => {
-    if (Math.abs(compassDegree - qiblaCoordinateState) < 2) {
+    if (Math.abs(degree - qiblaCoordinateState) < 2) {
       setIsAligned(true);
     } else {
       setIsAligned(false);
     }
-  }, [compassDegree, qiblaCoordinateState]);
+  }, [degree, qiblaCoordinateState]);
 
-  const compassDirection = getDirection(compassDegree);
-  const compassRotate = 360 - compassDegree;
-  const kabaRotate = compassRotate + qiblaCoordinateState;
+  const direction = getDirection(degree);
+  const rotateCompass = 360 - degree;
+  const rotateKaba = rotateCompass + qiblaCoordinateState;
 
   return {
-    qiblaCoordinate: qiblaCoordinateState,
-    compassDirection,
-    compassDegree,
-    compassRotate,
-    kabaRotate,
-    error,
+    qiblaCoords: qiblaCoordinateState,
+    direction,
+    degree,
+    rotateCompass,
+    rotateKaba,
+    errorMsg,
     isLoading,
     isAligned,
-    reinitCompass: initCompass,
+    resetCompass: initCompass
   };
 };
