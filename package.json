@@ -1,6 +1,6 @@
 {
   "name": "react-native-qibla-finder",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A React Native component for finding and displaying the Qibla direction using device sensors. It provides a visual compass and Qibla direction indicators with real-time updates based on sensor data.",
   "main": "index.tsx",
   "types": "index.d.ts",
@@ -26,17 +26,18 @@
   "license": "MIT",
   "homepage": "https://github.com/dogankablan/react-native-qibla-finder#readme",
   "dependencies": {
-    "react": "^17.0.2",
-    "react-native": "^0.64.2",
     "expo-location": "^12.0.4",
-    "expo-sensors": "^10.0.3",
-    "expo": "^51.0.17"
+    "expo-sensors": "^10.0.3"
   },
   "devDependencies": {
-    "typescript": "^4.1.5",
-    "@types/react": "^17.0.2",
-    "@types/react-native": "^0.64.2",
+    "@types/jest": "^26.0.20",
     "jest": "^26.6.3",
-    "@types/jest": "^26.0.20"
+    "typescript": "^4.1.5"
+  },
+  "peerDependencies": {
+    "@types/react": "^18.3.1",
+    "@types/react-native": "^0.74.3",
+    "react": "^18.3.1",
+    "react-native": "^0.74.3"
   }
 }
