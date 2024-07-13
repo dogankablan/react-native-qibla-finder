@@ -30,9 +30,9 @@ const QiblaFinder = forwardRef<QiblaFinderRef, QiblaFinderProps>(
       qiblaDirectionImageStyle, // Styles for the Qibla direction image
       qiblaDirectionStyle, // Styles for the Qibla direction container
       compassStyle, // Styles for the compass container
-      qiblaDirectionImage = require('./assets/kaaba.png'), // Default Qibla direction image
-      compassImage = require('./assets/compass.png'), // Default compass image
-      kaabaImage = require('./assets/kaaba.png'), // Default Kaaba image
+      qiblaDirectionImage = require('../assets/kaaba.png'), // Default Qibla direction image
+      compassImage = require('../assets/compass.png'), // Default compass image
+      kaabaImage = require('../assets/kaaba.png'), // Default Kaaba image
       loadingIndicatorSize = 50, // Size of the loading indicator
       loadingIndicatorColor = 'black', // Color of the loading indicator
       showLoadingIndicator = true, // Flag to show or hide the loading indicator
