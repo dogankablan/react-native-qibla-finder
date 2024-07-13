@@ -1,0 +1,41 @@
+{
+  "name": "react-native-qibla-finder",
+  "version": "1.0.0",
+  "description": "A React Native component for finding and displaying the Qibla direction using device sensors. It provides a visual compass and Qibla direction indicators with real-time updates based on sensor data.",
+  "main": "index.tsx",
+  "types": "index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dogankablan/qibla-finder.git"
+  },
+  "keywords": [
+    "react-native",
+    "qibla",
+    "compass",
+    "direction",
+    "islamic",
+    "sensor",
+    "real-time",
+    "prayer",
+    "location"
+  ],
+  "author": "Your Name <your.email@example.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/dogankablan/qibla-finder#readme",
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-native": "^0.64.2",
+    "expo-location": "^12.0.4",
+    "expo-sensors": "^10.0.3"
+  },
+  "devDependencies": {
+    "typescript": "^4.1.5",
+    "@types/react": "^17.0.2",
+    "@types/react-native": "^0.64.2",
+    "jest": "^26.6.3",
+    "@types/jest": "^26.0.20"
+  }
+}
