@@ -28,7 +28,8 @@ export interface QiblaFinderRef {
   resetCompass: () => void;
 }
 
-declare module 'react-native-qible-finder' {
+declare module 'react-native-qibla-finder' {
   const QiblaFinder: ComponentType<QiblaFinderProps>;
-  export default QiblaFinder;
+  const QiblaFinderRef: ComponentType<QiblaFinderRef>;
+  export { QiblaFinder, QiblaFinderRef };
 }
