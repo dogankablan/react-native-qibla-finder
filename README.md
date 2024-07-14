@@ -80,6 +80,19 @@ config = use_native_modules!
 use_react_native!(
 ```
 
+#### Adding Location Permissions to Info.plist
+To ensure the app has the necessary permissions to access the device's location, you need to add the following keys to your Info.plist file:
+
+```xml
+<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+<string>Allow $(PRODUCT_NAME) to use your location</string>
+<key>NSLocationAlwaysUsageDescription</key>
+<string>Allow $(PRODUCT_NAME) to use your location</string>
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>Allow $(PRODUCT_NAME) to use your location</string>
+
+```
+
 ##### Install Pods:
 ```sh
 npx pod-install
@@ -107,8 +120,7 @@ override fun createReactActivityDelegate(): ReactActivityDelegate =
 
 Below is an example of how to modify your `android/app/src/main/java/com/myapp/MainApplication.kt` file:
 
-```diff
-package com.myapp
+```diffpackage com.myapp
 
 import android.content.res.Configuration
 import expo.modules.ApplicationLifecycleDispatcher
@@ -163,7 +175,31 @@ includeBuild('../node_modules/@react-native/gradle-plugin')
 
 
 ```
+#### Adding Location Permissions to AndroidManifest.xml (Android)
+To ensure the app has the necessary permissions to access the device's location, you need to add the following permissions to your AndroidManifest.xml file:
 
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.myapp">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+    <application
+        android:requestLegacyExternalStorage="true"
+        android:usesCleartextTraffic="true"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:allowBackup="true"
+        android:theme="@style/AppTheme">
+
+        <!-- Other configurations -->
+
+    </application>
+</manifest>
+
+```
 
 ## Usage
 
@@ -239,3 +275,10 @@ const App = () => (
 
 export default App;
 ```
+
+## Feedback
+
+If you have any feedback, please reach out to us at dogankablan@hotmail.com.tr
+
+
+  
