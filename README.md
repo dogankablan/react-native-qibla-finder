@@ -16,6 +16,152 @@ yarn add react-native-qibla-finder
 ```sh
 npm install react-native-qibla-finder
  ```
+Note For iOS using cocoapods, run:
+```sh
+$ cd ios/ && pod install
+```
+
+***If you are using Expo, you can start using the package right away. However, if you are using React Native CLI, additional configurations are required.***
+
+### Additional Setup for React Native CLI
+If you are using React Native CLI, you need to install and configure expo-modules. Follow the steps provided in the Expo Modules Installation Guide.
+
+from npm:
+```sh
+npm install expo
+````
+from yarn:
+```sh
+yarn add expo
+````
+Note For iOS using cocoapods, run:
+```sh
+$ cd ios/ && pod install
+```
+
+#### Configuration for iOS
+
+Below is an example of how to modify your `ios/myapp/AppDelegate.h` file:
+
+```diff
+#import <RCTAppDelegate.h>
+#import <Expo/Expo.h>
+#import <UIKit/UIKit.h>
+
+- @interface AppDelegate : RCTAppDelegate
++ @interface AppDelegate : EXAppDelegateWrapper
+
+@end
+
+```
+
+Below is an example of how to modify your `ios/Podfile` file:
+
+```diff
+require File.join(File.dirname(`node --print "require.resolve('expo/package.json')"`), "scripts/autolinking")
+
+# Resolve react_native_pods.rb with node to allow for hoisting
+require Pod::Executable.execute_command('node', ['--print',
+  'require.resolve'
+end
+
+target 'myapp' do
++   use_expo_modules!
++   post_integrate do |installer|
++       begin
++           expo_patch_react_imports!(installer)
++       rescue => e
++           Pod::UI.warn e
++       end
++   end
+end
+
+config = use_native_modules!
+use_react_native!(
+```
+
+##### Install Pods:
+```sh
+npx pod-install
+```
+
+
+#### Configuration for Android
+
+Below is an example of how to modify your `android/app/src/main/java/com/myapp/MainActivity.kt` file:
+
+```diff
+package com.myapp
+
+import expo.modules.ReactActivityDelegateWrapper
+import com.facebook.react.ReactActivity
+import com.facebook.react.ReactActivityDelegate
+
+/**
+ * which allows you to enable New Architecture with a single boolean flags [fabricEnabled]
+ */
+override fun createReactActivityDelegate(): ReactActivityDelegate =
+-   DefaultReactActivityDelegate(this, mainComponentName, fabricEnabled)
++   ReactActivityDelegateWrapper(this, BuildConfig.IS_NEW_ARCHITECTURE_ENABLED, DefaultReactActivityDelegate(this, mainComponentName, fabricEnabled))
+```
+
+Below is an example of how to modify your `android/app/src/main/java/com/myapp/MainApplication.kt` file:
+
+```diffpackage com.myapp
+
+import android.content.res.Configuration
+import expo.modules.ApplicationLifecycleDispatcher
+import expo.modules.ReactNativeHostWrapper
+import android.app.Application
+import com.facebook.react.PackageList
+
+class MainApplication : Application(), ReactApplication {
+    override val reactNativeHost: ReactNativeHost = 
+-       object : DefaultReactNativeHost(this) {
++       ReactNativeHostWrapper(this, object : DefaultReactNativeHost(this) {
+
+        override fun getPackages(): List<ReactPackage> = 
+            PackageList(this).packages.apply {
+                // Packages that cannot be autolinked yet can be added manually here, for example:
+                // add(MyReactNativePackage())
+            }
+        override val isNewArchEnabled: Boolean = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED
+        override val isHermesEnabled: Boolean = BuildConfig.IS_HERMES_ENABLED
+    })
+    }
+
+    override val reactHost: ReactHost
+-        get() = getDefaultReactHost(applicationContext, reactNativeHost)
++        get() = ReactNativeHostWrapper.createReactHost(applicationContext, reactNativeHost)
+
+    override fun onCreate() {
+        super.onCreate()
+        // If you opted-in for the New Architecture, we load the native entry point for this app.
+        load()
+
+        ApplicationLifecycleDispatcher.onApplicationCreate(this)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        ApplicationLifecycleDispatcher.onConfigurationChanged(this, newConfig)
+    }
+}
+
+```
+Below is an example of how to modify your `android/settings.gradle` file:
+```diff
+
+apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle");
+applyNativeModulesSettingsGradle(settings)
+include ':app'
+includeBuild('../node_modules/@react-native/gradle-plugin')
+
++ apply from: new File(["node", "--print", "require.resolve('expo/package.json')"].execute(null, rootDir).text.trim(), "../scripts/autolinking.gradle")
++ useExpoModules()
+
+
+```
 
 
 ## Usage
@@ -26,7 +172,7 @@ Here's a basic example of how to use the component:
 ```javascript
 import React from 'react';
 import { View } from 'react-native';
-import { QiblaFinder } from 'react-native-qibla-finder;
+import { QiblaFinder } from 'react-native-qibla-finder';
 
 const App = () => (
   <View style={{ flex: 1 }}>
