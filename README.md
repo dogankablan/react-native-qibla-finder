@@ -107,7 +107,8 @@ override fun createReactActivityDelegate(): ReactActivityDelegate =
 
 Below is an example of how to modify your `android/app/src/main/java/com/myapp/MainApplication.kt` file:
 
-```diffpackage com.myapp
+```diff
+package com.myapp
 
 import android.content.res.Configuration
 import expo.modules.ApplicationLifecycleDispatcher
