@@ -154,20 +154,20 @@ class MainApplication : Application(), ReactApplication {
     }
 
     override val reactHost: ReactHost
-   - get() = getDefaultReactHost(applicationContext, reactNativeHost)
-   + get() = ReactNativeHostWrapper.createReactHost(applicationContext, reactNativeHost)
+-     get() = getDefaultReactHost(applicationContext, reactNativeHost)
++     get() = ReactNativeHostWrapper.createReactHost(applicationContext, reactNativeHost)
 
     override fun onCreate() {
         super.onCreate()
         // If you opted-in for the New Architecture, we load the native entry point for this app.
         load()
 
-      + ApplicationLifecycleDispatcher.onApplicationCreate(this)
-    + }
++     ApplicationLifecycleDispatcher.onApplicationCreate(this)
++    }
 
-    + override fun onConfigurationChanged(newConfig: Configuration) {
-      + super.onConfigurationChanged(newConfig)
-      + ApplicationLifecycleDispatcher.onConfigurationChanged(this, newConfig)
++   override fun onConfigurationChanged(newConfig: Configuration) {
++     super.onConfigurationChanged(newConfig)
++     ApplicationLifecycleDispatcher.onConfigurationChanged(this, newConfig)
     }
 }
 
