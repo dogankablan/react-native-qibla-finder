@@ -25,10 +25,6 @@
   "author": "Doğan Kablan <dogankablan@hotmail.com.tr>",
   "license": "MIT",
   "homepage": "https://github.com/dogankablan/react-native-qibla-finder#readme",
-  "dependencies": {
-    "expo-location": "^12.0.4",
-    "expo-sensors": "^10.0.3"
-  },
   "devDependencies": {
     "@types/jest": "^26.0.20",
     "jest": "^26.6.3",
