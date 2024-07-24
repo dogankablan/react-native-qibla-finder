@@ -54,7 +54,7 @@ Below is an example of how to modify your `ios/myapp/AppDelegate.h` file:
 
 ```diff
 #import <RCTAppDelegate.h>
-#import <Expo/Expo.h>
++ #import <Expo/Expo.h>
 #import <UIKit/UIKit.h>
 
 - @interface AppDelegate : RCTAppDelegate
@@ -67,7 +67,7 @@ Below is an example of how to modify your `ios/myapp/AppDelegate.h` file:
 Below is an example of how to modify your `ios/Podfile` file:
 
 ```diff
-require File.join(File.dirname(`node --print "require.resolve('expo/package.json')"`), "scripts/autolinking")
++ require File.join(File.dirname(`node --print "require.resolve('expo/package.json')"`), "scripts/autolinking")
 
 # Resolve react_native_pods.rb with node to allow for hoisting
 require Pod::Executable.execute_command('node', ['--print',
@@ -83,7 +83,6 @@ target 'myapp' do
 +           Pod::UI.warn e
 +       end
 +   end
-end
 
 config = use_native_modules!
 use_react_native!(

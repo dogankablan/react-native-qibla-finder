@@ -1,6 +1,6 @@
 {
   "name": "react-native-qibla-finder",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A React Native component for finding and displaying the Qibla direction using device sensors. It provides a visual compass and Qibla direction indicators with real-time updates based on sensor data.",
   "main": "index.tsx",
   "types": "index.d.ts",
